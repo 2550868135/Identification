@@ -5,7 +5,7 @@ import random
 
 import cv2
 
-MAX_NUM = 400
+MAX_NUM = 200
 # 角度边界
 ANGLE_EDGE = 330
 
@@ -31,7 +31,7 @@ def rotate_image(base_dir, file, angle):
         # 在内存里完成了旋转
         rotated_img = cv2.warpAffine(
             img, M, (cols, rows),
-            borderValue=(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            borderValue=(127,127,127)
         )
         cv2.imwrite(save_path, rotated_img)
         print("generate image: {}".format(filename))
@@ -63,11 +63,15 @@ def generate_image(path):
         for i in range(rotate_count):
             # 随机旋转角度需要进行选址
             angle = last_angle
-            while (angle - 20) < last_angle or (angle - MAX_NUM//rotate_count) > last_angle:
-                angle = random.randint(last_angle, MAX_NUM)
+            # 防止旋转角度过小或过大
+            while (angle - 20) < last_angle or (angle - ANGLE_EDGE//rotate_count) > last_angle:
+                angle = random.randint(last_angle, ANGLE_EDGE)
             last_angle = angle
             rotate_image(path, file, angle)
 
 if __name__ == "__main__":
-    generate_image("../../data/id_card")
-    generate_image("../../data/social_security_card")
+
+    generate_image("../../data/positive_id_card")
+    generate_image("../../data/negative_id_card")
+    generate_image("../../data/positive_social_security_card")
+    generate_image("../../data/negative_social_security_card")

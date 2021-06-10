@@ -1,2 +1,5 @@
 data
+data_pre
+data_test
 *.zip
+venv
