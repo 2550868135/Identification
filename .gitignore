@@ -1,5 +1,6 @@
 data
 data_pre
 data_test
+.idea
 *.zip
 venv
